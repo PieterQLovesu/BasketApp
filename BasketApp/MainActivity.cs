@@ -22,6 +22,8 @@ namespace BasketApp
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.AddScore);
 
+          
+
             SeekBar PieterScore = FindViewById<SeekBar>(Resource.Id.PieterScore);
             TextView PieterScoreView = FindViewById<TextView>(Resource.Id.PieterScoreView);
 
@@ -82,44 +84,18 @@ namespace BasketApp
 
             Button ExitButton = FindViewById<Button>(Resource.Id.Exit);
             // Exit program
-            ExitButton.Click += (sender, e) => 
-                { Finish(); };
+            ExitButton.Click += (sender, e) =>
+            {
+                Finish();
+            };
         }
 
         private void SendButton_Click(object sender, EventArgs e)
         {
-            // Create connection to DB   
-            MySqlConnection ConnectDB = new MySqlConnection();
-            ConnectDB.ConnectionString = "Server=sql11.freemysqlhosting.net;" + //  Server
-                                                    "Database=sql11173533;" +   //  DB
-                                                    "Uid=sql11173533;" +        //  UserName
-                                                    "Pwd=kDj7kP5Rax;";          //  Password
-            MySqlCommand cmdDB;
-
-            try
-            {
-                ConnectDB.Open();
-                cmdDB = ConnectDB.CreateCommand();
-                cmdDB.CommandText = "INSERT INTO Basket(Winner, D4nteScore, PieterScore, Date) VALUES(@Winner, @D4nteScore, @PieterScore, @Date)";
-                cmdDB.Parameters.AddWithValue("@Winner", Winner);
-                cmdDB.Parameters.AddWithValue("@D4nteScore", D4nteScoreRes);
-                cmdDB.Parameters.AddWithValue("@PieterScore", PieterScoreRes);
-                cmdDB.Parameters.AddWithValue("@Date", WhenWePlayed);
-                cmdDB.ExecuteNonQuery();
-            }
-            catch (MySqlException ex)
-            {
-                Toast.MakeText(this, ex.ToString(), ToastLength.Long).Show();
-                throw;
-            }
-            finally
-            {
-                if (ConnectDB.State == ConnectionState.Open)
-                {
-                    Toast.MakeText(this, "Dodano", ToastLength.Long).Show();
-                    ConnectDB.Close();
-                }
-            }
+            ConnectDB db = new ConnectDB(this);
+            db.Connect();
+            db.AddResult(Winner, D4nteScoreRes, PieterScoreRes, WhenWePlayed);
+            db.Disconnect();
         }
     }
 }

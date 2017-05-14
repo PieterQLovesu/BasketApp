@@ -72,6 +72,9 @@ namespace BasketApp
 			// aapt resource value: 0x7f050008
 			public const int D4nteScoreView = 2131034120;
 			
+			// aapt resource value: 0x7f05000c
+			public const int D4nteWins = 2131034124;
+			
 			// aapt resource value: 0x7f05000b
 			public const int Exit = 2131034123;
 			
@@ -86,6 +89,9 @@ namespace BasketApp
 			
 			// aapt resource value: 0x7f050005
 			public const int PieterScoreView = 2131034117;
+			
+			// aapt resource value: 0x7f05000d
+			public const int PieterWins = 2131034125;
 			
 			// aapt resource value: 0x7f050009
 			public const int Send = 2131034121;
@@ -128,11 +134,8 @@ namespace BasketApp
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f040001
-			public const int ApplicationName = 2130968577;
-			
 			// aapt resource value: 0x7f040000
-			public const int Hello = 2130968576;
+			public const int ApplicationName = 2130968576;
 			
 			static String()
 			{
