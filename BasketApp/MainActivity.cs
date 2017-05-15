@@ -1,9 +1,7 @@
 ﻿using Android.App;
 using Android.Widget;
 using Android.OS;
-using MySql.Data.MySqlClient;
 using System;
-using System.Data;
 
 namespace BasketApp
 {
@@ -22,7 +20,6 @@ namespace BasketApp
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.AddScore);
 
-          
 
             SeekBar PieterScore = FindViewById<SeekBar>(Resource.Id.PieterScore);
             TextView PieterScoreView = FindViewById<TextView>(Resource.Id.PieterScoreView);
@@ -57,14 +54,14 @@ namespace BasketApp
 
             // Set winner
             RadioButton D4nteRadio = FindViewById<RadioButton>(Resource.Id.D4nte);
-            D4nteRadio.Click += (sender, e) =>
+            D4nteRadio.Click += delegate
             {
                 if (D4nteRadio.Checked == true)
                     Winner = "D4nte";
             };
 
             RadioButton PieterRadio = FindViewById<RadioButton>(Resource.Id.Pieter);
-            PieterRadio.Click += (sender, e) =>
+            PieterRadio.Click += delegate
             {
                 if (PieterRadio.Checked == true)
                     Winner = "Pieter";
@@ -76,15 +73,15 @@ namespace BasketApp
             SendButton.Click += SendButton_Click;
 
             Button ShowResults = FindViewById<Button>(Resource.Id.ShowResults);
-            ShowResults.Click += (sender, e) =>
+            ShowResults.Click += delegate
             {
-                SetContentView(Resource.Layout.ShowResults);
+                StartActivity(typeof(ShowActivity));
             };
 
 
             Button ExitButton = FindViewById<Button>(Resource.Id.Exit);
             // Exit program
-            ExitButton.Click += (sender, e) =>
+            ExitButton.Click += delegate
             {
                 Finish();
             };
@@ -99,4 +96,3 @@ namespace BasketApp
         }
     }
 }
-

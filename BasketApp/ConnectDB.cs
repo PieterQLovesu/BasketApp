@@ -45,8 +45,16 @@ namespace BasketApp
         {
             if (Database.State == ConnectionState.Open)
             {
-                Toast.MakeText(NameOfActivity, "Dodano", ToastLength.Long).Show();
-                Database.Close();
+                try
+                {
+                    Toast.MakeText(NameOfActivity, "Dodano", ToastLength.Long).Show();
+                    Database.Close();
+                }
+                catch(MySqlException ex)
+                {
+                    Toast.MakeText(NameOfActivity, ex.ToString(), ToastLength.Long).Show();
+                    throw;
+                }
             }
         }
 
@@ -70,9 +78,74 @@ namespace BasketApp
             }
         }
 
-        public void DisplayResults()
+        public void DisplayWinsCount(TextView PlaceToDisplay, string PlayerName)
+        {
+            try
+            {
+                MySqlCommand cmdDB;
+                cmdDB = Database.CreateCommand();
+                cmdDB.CommandText = "SELECT COUNT(*) FROM Basket WHERE Winner='"+ PlayerName +"';";
+                MySqlDataReader WinsCount = cmdDB.ExecuteReader();
+                while (WinsCount.Read())
+                {
+                    PlaceToDisplay.Text = PlayerName + ": " + WinsCount.GetString(0);
+                }
+                if(!WinsCount.IsClosed)
+                    WinsCount.Close();
+            }
+            catch (MySqlException ex)
+            {
+                Toast.MakeText(NameOfActivity, ex.ToString(), ToastLength.Long).Show();
+                throw;
+            }         
+        }
+
+        public void ShowResults(TextView ShowRes)
         {
 
+            try
+            {
+                MySqlCommand cmdDB;
+                cmdDB = Database.CreateCommand();
+                cmdDB.CommandText = "SELECT * FROM Basket";
+                MySqlDataReader WinsCount = cmdDB.ExecuteReader();
+
+                ShowRes.Text = "\t\tZwyciężca\t\tD4nte\t\tPieter\t\t\tData\n";
+
+                while (WinsCount.Read())
+                {
+                    ShowRes.Text += "\t\t\t" + WinsCount.GetString(1) + 
+                                    "\t\t\t\t" + LessThanTen(WinsCount.GetString(2)) + 
+                                    "\t\t\t\t" + LessThanTen(WinsCount.GetString(3)) + 
+                                    "\t\t\t" + WinsCount.GetString(4) + "\n";
+
+                }
+                if (!WinsCount.IsClosed)
+                    WinsCount.Close();
+            }
+            catch (MySqlException ex)
+            {
+                Toast.MakeText(NameOfActivity, ex.ToString(), ToastLength.Long).Show();
+                throw;
+            }
+        }
+
+        private string LessThanTen(string Points)
+        {
+            char idk = '0';
+
+            for (int i = 0; i < 10; i++)
+            {
+                if(Points[0] == idk && Points.Length == 1)
+                {
+                    Points += " ";
+                    break;
+                }
+
+                ++idk;
+            }
+
+            return Points;
         }
     }
 }
