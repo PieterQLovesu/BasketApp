@@ -60,6 +60,9 @@ namespace BasketApp
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f05000e
+			public const int AllScores = 2131034126;
+			
 			// aapt resource value: 0x7f050001
 			public const int D4nte = 2131034113;
 			
